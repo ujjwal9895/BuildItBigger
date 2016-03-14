@@ -24,4 +24,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     // Added for AdMob
     compile 'com.google.android.gms:play-services:7.3.0'
+    compile project(':tellJoke')
 }
