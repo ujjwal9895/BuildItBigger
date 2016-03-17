@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.myapplication.backend.jokeApi.JokeApi;
@@ -23,9 +24,11 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
     private static JokeApi myApiService = null;
     private Context context;
+    private ProgressBar spinner;
 
-    public EndpointsAsyncTask(Context c) {
+    public EndpointsAsyncTask(Context c, ProgressBar progressBar) {
         this.context = c;
+        this.spinner = progressBar;
     }
 
     @Override

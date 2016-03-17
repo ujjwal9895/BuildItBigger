@@ -7,14 +7,20 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportFragmentManager().beginTransaction().
+                add(R.id.fragment, new MainActivityFragment()).commit();
     }
 
 
@@ -42,7 +48,8 @@ public class MainActivity extends ActionBarActivity {
 
     public void tellJoke(View view){
 
-        new EndpointsAsyncTask(this).execute(new Pair<Context, String>(this, "Ujjwal"));
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        new EndpointsAsyncTask(this, mProgressBar).execute(new Pair<Context, String>(this, "Ujjwal"));
 
     }
 

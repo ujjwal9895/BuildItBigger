@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.myapplication.backend.jokeApi.JokeApi;
@@ -28,28 +30,19 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     private Context context;
     private String mJoke;
     InterstitialAd mInterstitialAd;
+    private ProgressBar spinner;
 
-    public EndpointsAsyncTask(Context c) {
+    public EndpointsAsyncTask(Context c, ProgressBar progressBar) {
         this.context = c;
+        this.spinner = progressBar;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
-        mInterstitialAd = new InterstitialAd(context);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-
-        mInterstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdClosed() {
-
-                requestNewInterstitial();
-                startLibraryActivity();
-            }
-        });
-
-        requestNewInterstitial();
+        if (spinner != null)
+            spinner.setVisibility(View.VISIBLE);
     }
 
     private void requestNewInterstitial() {
@@ -88,13 +81,37 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     @Override
     protected void onPostExecute(String s) {
 
+        super.onPostExecute(s);
+
+        if (spinner != null)
+            spinner.setVisibility(View.GONE);
+
         mJoke = s;
 
-        if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            startLibraryActivity();
-        }
+        mInterstitialAd = new InterstitialAd(context);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                super.onAdFailedToLoad(errorCode);
+                startLibraryActivity();
+            }
+
+            @Override
+            public void onAdClosed() {
+                startLibraryActivity();
+            }
+        });
+
+        requestNewInterstitial();
 
     }
 

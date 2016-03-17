@@ -15,7 +15,7 @@ public class StringResponseTest extends AndroidTestCase {
     public void testNonNullResponse() {
 
         String joke = null;
-        EndpointsAsyncTask endpointsAsyncTask = new EndpointsAsyncTask(getContext());
+        EndpointsAsyncTask endpointsAsyncTask = new EndpointsAsyncTask(getContext(), null);
         endpointsAsyncTask.execute(new Pair<Context, String>(getContext(), "Ujjwal"));
 
         try {
