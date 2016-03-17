@@ -17,3 +17,7 @@ allprojects {
         jcenter()
     }
 }
+
+task testingTask {
+    dependsOn = [ ":backend:appengineRun", ":app:connectedAndroidTest", ":backend:appengineStop" ]
+}
