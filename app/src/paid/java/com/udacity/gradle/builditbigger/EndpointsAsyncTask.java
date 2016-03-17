@@ -24,6 +24,10 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     private static JokeApi myApiService = null;
     private Context context;
 
+    public EndpointsAsyncTask(Context c) {
+        this.context = c;
+    }
+
     @Override
     protected String doInBackground(Pair<Context, String>... params) {
 
@@ -37,9 +41,6 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
 
             myApiService = builder.build();
         }
-
-        context = params[0].first;
-        String name = params[0].second;
 
         JokeTelling jokeTelling = new JokeTelling();
         String joke = jokeTelling.getJoke();
